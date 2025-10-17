@@ -9,6 +9,5 @@ import javax.swing.*;
 public class Main {
     public static void main(String[] args){
         DropCatcher game = new DropCatcher();
-        game.createDrop();
     }
 }

@@ -10,6 +10,9 @@ import java.util.Random;
 // NOTE: Setting bounds in this class sets it relative to the JComponent, not to the parent component.
 public class Drop extends JComponent {
 
+    // A single variable to ensure only one sprite object image is actually loaded, rather than every repaint
+    private static final BufferedImage SPRITE = SpriteLoader.loadSprite("DropBlurred.png");
+
     private final int width,height;
     private int xPos,yPos;
 
@@ -24,17 +27,11 @@ public class Drop extends JComponent {
         setVisible(true);
     }
 
-    @Override
-    public void paint(Graphics g){
-        Graphics2D g2 = (Graphics2D) g;
-        BufferedImage sprite = SpriteLoader.loadSprite("DropBlurred.png");
+    public BufferedImage getSprite(){return SPRITE;}
 
-        if(sprite != null){
-            g2.drawImage(sprite,xPos,yPos,width,height,null);
-        }
-    }
-
-
-
+    /*
+     * REMOVED THE PAINT METHOD IN THIS CLASS
+     * Now handled by the background panel which contains these objects to paint them as it is constantly repainted.
+     * */
 
 }
