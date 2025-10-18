@@ -8,9 +8,6 @@ import java.awt.event.ActionListener;
 
 public class DropTimer {
 
-    private static final float DURATION_DEC_INTERVAL = 10.25f;
-    private static final int TIMER_RATE = 10;
-
     private final DropCatcher game;
     private final Timer timer;
 
@@ -19,13 +16,13 @@ public class DropTimer {
 
     public DropTimer(DropCatcher game){
         this.game = game;
-        timer = new Timer(TIMER_RATE,onTimerComplete());
+        timer = new Timer(GameConstants.TIMER_RATE,onTimerComplete());
     }
 
     public Timer getTimer(){return timer;}
 
     private void decDuration(){
-        duration -= DURATION_DEC_INTERVAL;
+        duration -= GameConstants.DURATION_DEC_INTERVAL;
         //System.out.println(duration);
     }
 

@@ -1,0 +1,13 @@
+ISSUE #1: The game will crash if too many drops are on screen, likely because the size of the list variable is set at
+the beginning of the loop and not updated enough times or at the right places? So then it keeps going with its current
+list size of moving drops down and when it gets to the last element, it freaks out because it's been destroyed already.
+
+POSSIBLY FIXED: Exit the loop when a drop is removed so the size of the array can be redefined immediately.
+
+ISSUE #2: Mouse Position returns null when leaving the screen, possibly leaving the bucket unable to be moved again.
+ -- Only thing I can think of is adding better conditions
+ -- Possibly use java Robot class so every time the mouse goes outside of the JFrame or its position regards to the
+    JFrame equals null, the robot moves it to the nearest edge of the JFRame
+
+ISSUE #3: Sometimes a rare bug on start up that throws error regarding dropsList being null when something is run;
+need to encounter it again to figure out how to fix it.

@@ -4,7 +4,6 @@ import com.java.DropCatcher.gui.GameFrame;
 import com.java.DropCatcher.objects.Bucket;
 import com.java.DropCatcher.objects.Drop;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -58,20 +57,22 @@ public class DropCatcher {
         drop.repaint();
     }
 
-    public Drop createDrop(){
-        // Create a new drop
-        Drop drop = new Drop();
+    public void createDrop(){
+        // Only adds drop if less than or equal to 20 drops are on screen
+        if(dropsList.size() <= GameConstants.MAX_DROPS) {
 
-        // Add it to the content pane
-        content.add(drop);
+            // Create a new drop
+            Drop drop = new Drop();
 
-        // Add it to the list of all drops
-        dropsList.add(drop);
+            // Add it to the content pane
+            content.add(drop);
 
-        randomizeDropPosition(drop);
-        content.repaint();
+            // Add it to the list of all drops
+            dropsList.add(drop);
 
-        return drop;
+            randomizeDropPosition(drop);
+            content.repaint();
+        }
     }
 
     public void moveDropDown(Drop drop){
@@ -97,9 +98,8 @@ public class DropCatcher {
         // Need to decrement through array list because causes issues if you go forward through the arraylist
         for(int i = dropsList.size() - 1; i >= 0; i--){
             if(dropsList.get(i).getY() >= content.getHeight()){
-                //System.out.println("Drop Height at removal=" + dropsList.get(i).getY());
-                //System.out.println("Drop list size:"+dropsList.size());
                 dropsList.remove(i);
+                break;
             }
         }
     }
@@ -124,7 +124,9 @@ public class DropCatcher {
             if(bucketRect.intersects(dropRect)){
                 dropsList.remove(dropsList.get(i));
                 score++;
+                //TODO: Label in top right that updates score value, make the font white
                 System.out.println("SCORE!" + score);
+                break;
             }
         }
     }
