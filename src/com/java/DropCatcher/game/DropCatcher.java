@@ -1,6 +1,9 @@
 package com.java.DropCatcher.game;
 
 import com.java.DropCatcher.gui.GameFrame;
+import com.java.DropCatcher.gui.HighScoreLabel;
+import com.java.DropCatcher.gui.LifeCounterPanel;
+import com.java.DropCatcher.gui.ScoreLabel;
 import com.java.DropCatcher.objects.Bucket;
 import com.java.DropCatcher.objects.Drop;
 
@@ -17,6 +20,9 @@ public class DropCatcher {
 
     private final DropTimer dropTimer;
     private final Bucket bucket;
+    private final ScoreLabel scoreLabel;
+    private final HighScoreLabel highScoreLabel;
+    private final LifeCounterPanel lifeCounterLabel;
 
     private int score,highScore,lives;
     private boolean gameOver;
@@ -32,10 +38,32 @@ public class DropCatcher {
         initializeBucket();
         content.repaint();
 
+        // Initialize drop list and timer
         dropsList = new ArrayList<>();
         dropTimer = new DropTimer(this);
 
+        // Start the drop timer, starts the game
         dropTimer.getTimer().start();
+
+        // Add the score and high score labels
+        scoreLabel = new ScoreLabel();
+        highScoreLabel = new HighScoreLabel();
+        content.add(scoreLabel);
+        content.add(highScoreLabel);
+        scoreLabel.setBounds(0,0,scoreLabel.getWidth(),scoreLabel.getHeight());
+        highScoreLabel.setBounds(0,scoreLabel.getHeight(),highScoreLabel.getWidth(),highScoreLabel.getHeight());
+
+        // Add the life counter
+        lifeCounterLabel = new LifeCounterPanel(this);
+        content.add(lifeCounterLabel);
+        lifeCounterLabel.setBounds(
+                content.getWidth()-lifeCounterLabel.getWidth(),
+                0,
+                lifeCounterLabel.getWidth(),
+                lifeCounterLabel.getHeight()
+        );
+
+        // Repaint after all components added
         content.repaint();
 
         // Define game variables
@@ -52,7 +80,8 @@ public class DropCatcher {
     public Bucket getBucket(){return bucket;}
 
     private void randomizeDropPosition(Drop drop){
-        int randX = RAND.nextInt(0, content.getWidth());
+        // Creates drops within the content pane and not too far to the right
+        int randX = RAND.nextInt(0, content.getWidth() - drop.getWidth());
         drop.setBounds(randX,0,drop.getWidth(),drop.getHeight());
         drop.repaint();
     }
@@ -94,6 +123,7 @@ public class DropCatcher {
         removeDrops();
     }
 
+    // TODO: Change this method to removeOffScreenDrops, and add a method for decrementing life; loseLife()
     private void removeDrops(){
         // Need to decrement through array list because causes issues if you go forward through the arraylist
         for(int i = dropsList.size() - 1; i >= 0; i--){
@@ -124,11 +154,18 @@ public class DropCatcher {
             if(bucketRect.intersects(dropRect)){
                 dropsList.remove(dropsList.get(i));
                 score++;
-                //TODO: Label in top right that updates score value, make the font white
-                System.out.println("SCORE!" + score);
+                scoreLabel.updateScore(score);
+                if(checkHighScore()){
+                    highScoreLabel.updateScore(score);
+                }
+                //System.out.println("SCORE!" + score);
                 break;
             }
         }
+    }
+
+    private boolean checkHighScore(){
+        return score > highScore;
     }
 
 

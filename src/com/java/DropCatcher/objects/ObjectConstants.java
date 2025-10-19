@@ -8,4 +8,7 @@ public class ObjectConstants {
     protected static final int BUCKET_WIDTH = 200;
     protected static final int BUCKET_HEIGHT = 200;
 
+    protected static final int HEART_WIDTH = 100;
+    protected static final int HEART_HEIGHT = 100;
+
 }

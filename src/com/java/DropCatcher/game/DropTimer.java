@@ -42,6 +42,7 @@ public class DropTimer {
                 float clockTime = now - startTime;
                 if(clockTime > duration){
                     game.createDrop();
+                    //TODO: Dec duration until certain limit, then increase drop speed
                     decDuration();
                     startTime = System.currentTimeMillis();
                 }
