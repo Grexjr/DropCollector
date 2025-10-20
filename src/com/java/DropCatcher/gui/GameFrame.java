@@ -30,12 +30,12 @@ public class GameFrame extends JFrame {
             // This release starts the timer
             @Override
             public void mousePressed(MouseEvent e) {
-                startHoldTimer();
+                startHoldTimer(e);
             }
             // This release stops the timer
             @Override
             public void mouseReleased(MouseEvent e){
-                stopHoldTimer();
+                stopHoldTimer(e);
             }
         });
 
@@ -43,23 +43,31 @@ public class GameFrame extends JFrame {
         setVisible(true);
     }
 
-    private void startHoldTimer(){
+    private void startHoldTimer(MouseEvent e){
        // Need to create a timer to deal with mouse being pressed down
+        if (e.getButton() == MouseEvent.BUTTON1 && !dropCatcher.getGameOver()) {
             holdTimer = new Timer(0, _ -> {
+                // There we go; had to put the stop condition in the timer so when the timer started if game over, stop
+                if(dropCatcher.getGameOver()){holdTimer.stop();}
+
                 int newX = 0;
-                if(!(getContentPane().getMousePosition() == null)){
-                   newX = Math.toIntExact(Math.round(getContentPane().getMousePosition().getX()));
+                // Set mouse position on to screen if it is off of it
+                if (!(getContentPane().getMousePosition() == null)) {
+                    newX = Math.toIntExact(Math.round(getContentPane().getMousePosition().getX()));
                 }
-                if(newX > 0 && newX < getContentPane().getWidth()) {
+                // Move bucket if within bounds
+                if (newX > 0 && newX < getContentPane().getWidth()) {
                     dropCatcher.getBucket().setBounds(
-                            newX,
+                            // Centers bucket at mouse position instead of top left
+                            newX - dropCatcher.getBucket().getWidth()/2,
                             dropCatcher.getBucket().getY(),
                             dropCatcher.getBucket().getWidth(),
                             dropCatcher.getBucket().getHeight()
                     );
+
                     // Ensure bucket stays on screen
-                    if(dropCatcher.getBucket().getX() >= getContentPane().getWidth()
-                            - dropCatcher.getBucket().getWidth()){
+                    if (dropCatcher.getBucket().getX() >= getContentPane().getWidth()
+                            - dropCatcher.getBucket().getWidth()) {
                         dropCatcher.getBucket().setBounds(
                                 getContentPane().getWidth() - dropCatcher.getBucket().getWidth(),
                                 dropCatcher.getBucket().getY(),
@@ -70,10 +78,13 @@ public class GameFrame extends JFrame {
                 }
             });
             holdTimer.start();
+        }
     }
 
-    private void stopHoldTimer(){
-        holdTimer.stop();
+    private void stopHoldTimer(MouseEvent e){
+        if(e.getButton() == MouseEvent.BUTTON1){
+            holdTimer.stop();
+        }
     }
 
 

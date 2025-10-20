@@ -6,6 +6,7 @@ import com.java.DropCatcher.gui.LifeCounterPanel;
 import com.java.DropCatcher.gui.ScoreLabel;
 import com.java.DropCatcher.objects.Bucket;
 import com.java.DropCatcher.objects.Drop;
+import com.java.DropCatcher.util.AudioLoader;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class DropCatcher {
     private final Bucket bucket;
     private final ScoreLabel scoreLabel;
     private final HighScoreLabel highScoreLabel;
-    private final LifeCounterPanel lifeCounterLabel;
+    private final LifeCounterPanel lifeCounterPanel;
 
     private int score,highScore,lives;
     private boolean gameOver;
@@ -54,14 +55,17 @@ public class DropCatcher {
         highScoreLabel.setBounds(0,scoreLabel.getHeight(),highScoreLabel.getWidth(),highScoreLabel.getHeight());
 
         // Add the life counter
-        lifeCounterLabel = new LifeCounterPanel(this);
-        content.add(lifeCounterLabel);
-        lifeCounterLabel.setBounds(
-                content.getWidth()-lifeCounterLabel.getWidth(),
+        lifeCounterPanel = new LifeCounterPanel(this);
+        content.add(lifeCounterPanel);
+        lifeCounterPanel.setBounds(
+                content.getWidth()- lifeCounterPanel.getWidth(),
                 0,
-                lifeCounterLabel.getWidth(),
-                lifeCounterLabel.getHeight()
+                lifeCounterPanel.getWidth(),
+                lifeCounterPanel.getHeight()
         );
+
+        // Start the music
+        AudioLoader.playMusic(GameConstants.MUSIC_FILE);
 
         // Repaint after all components added
         content.repaint();
@@ -78,6 +82,7 @@ public class DropCatcher {
     public Container getContent(){return content;}
     public ArrayList<Drop> getDropsList(){return dropsList;}
     public Bucket getBucket(){return bucket;}
+    public boolean getGameOver(){return gameOver;}
 
     private void randomizeDropPosition(Drop drop){
         // Creates drops within the content pane and not too far to the right
@@ -110,10 +115,11 @@ public class DropCatcher {
 
         //System.out.println("Drop Y="+dropY);
         //System.out.println("Content height="+content.getHeight());
+        //System.out.println(dropTimer.getDropSpeedMod());
 
         drop.setBounds(
                 dropX,
-                dropY + GameConstants.DROP_SPEED,
+                dropY + (int)Math.ceil((GameConstants.DROP_SPEED + dropTimer.getDropSpeedMod())),
                 drop.getWidth(),
                 drop.getHeight());
         drop.repaint();
@@ -129,9 +135,21 @@ public class DropCatcher {
         for(int i = dropsList.size() - 1; i >= 0; i--){
             if(dropsList.get(i).getY() >= content.getHeight()){
                 dropsList.remove(i);
+                decreaseLife();
                 break;
             }
         }
+    }
+
+    private void decreaseLife(){
+        if(!(lifeCounterPanel.getLives().size() == 1)){
+            lifeCounterPanel.getLives().removeFirst();
+            lifeCounterPanel.repaint();
+        } else {
+            lifeCounterPanel.getLives().removeFirst();
+            gameOver = true;
+        }
+        AudioLoader.playSound(GameConstants.LIFE_LOSS_FILE);
     }
 
     private void initializeBucket(){
@@ -152,6 +170,7 @@ public class DropCatcher {
             Rectangle bucketRect = bucket.getBounds();
 
             if(bucketRect.intersects(dropRect)){
+                AudioLoader.playSound(GameConstants.DROPLET_FILE);
                 dropsList.remove(dropsList.get(i));
                 score++;
                 scoreLabel.updateScore(score);

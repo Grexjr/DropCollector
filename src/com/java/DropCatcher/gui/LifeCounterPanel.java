@@ -30,11 +30,12 @@ public class LifeCounterPanel extends JPanel {
             LifeCount heart = new LifeCount();
             heartCounter.add(heart);
             add(heart);
-            System.out.println(heartCounter);
         }
 
         setVisible(true);
     }
+
+    public ArrayList<LifeCount> getLives(){return heartCounter;}
 
     @Override
     public void paintComponent(Graphics g){
