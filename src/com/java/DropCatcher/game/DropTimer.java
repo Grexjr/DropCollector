@@ -35,7 +35,7 @@ public class DropTimer {
                 //if game started
 
                 // if game over not true
-                if(!game.getGameOver()){
+                if(!game.getGameOver() && game.getGameStarted()){
                     // Use current time for start time
                     if (startTime < 0) {
                         startTime = System.currentTimeMillis();

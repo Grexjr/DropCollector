@@ -12,6 +12,8 @@ public class GameFrame extends JFrame {
     private final DropCatcher dropCatcher;
     private Timer holdTimer;
 
+    //TODO: The movement stuff should probably go into the game class now that I think about it, but oh well
+
     public GameFrame(DropCatcher game){
         // Create reference to game
         dropCatcher = game;
@@ -45,7 +47,7 @@ public class GameFrame extends JFrame {
 
     private void startHoldTimer(MouseEvent e){
        // Need to create a timer to deal with mouse being pressed down
-        if (e.getButton() == MouseEvent.BUTTON1 && !dropCatcher.getGameOver()) {
+        if (e.getButton() == MouseEvent.BUTTON1 && !dropCatcher.getGameOver() && dropCatcher.getGameStarted()) {
             holdTimer = new Timer(0, _ -> {
                 // There we go; had to put the stop condition in the timer so when the timer started if game over, stop
                 if(dropCatcher.getGameOver()){holdTimer.stop();}

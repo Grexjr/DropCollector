@@ -1,9 +1,7 @@
 package com.java.DropCatcher.game;
 
-import com.java.DropCatcher.gui.GameFrame;
-import com.java.DropCatcher.gui.HighScoreLabel;
-import com.java.DropCatcher.gui.LifeCounterPanel;
-import com.java.DropCatcher.gui.ScoreLabel;
+import com.java.DropCatcher.gui.*;
+import com.java.DropCatcher.main.Main;
 import com.java.DropCatcher.objects.Bucket;
 import com.java.DropCatcher.objects.Drop;
 import com.java.DropCatcher.util.AudioLoader;
@@ -12,12 +10,16 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+//TODO: Refactor and re-organize
 public class DropCatcher {
 
     private static final Random RAND = new Random();
 
     private final Container content;
     private final ArrayList<Drop> dropsList;
+
+    private final MainMenuPanel mainMenu;
+    private final InstructionsTextPanel instructionsTextPanel;
 
     private final DropTimer dropTimer;
     private final Bucket bucket;
@@ -64,6 +66,33 @@ public class DropCatcher {
                 lifeCounterPanel.getHeight()
         );
 
+        // Add the main menu panel
+        mainMenu = new MainMenuPanel(this);
+        content.add(mainMenu);
+        mainMenu.setBounds(
+                (content.getWidth()/2) - (mainMenu.getWidth()/3),
+                content.getHeight()/2 - (mainMenu.getHeight()/3),
+                mainMenu.getWidth(),
+                mainMenu.getHeight()
+        );
+
+        // Add the instructions text panel
+        instructionsTextPanel = new InstructionsTextPanel(this);
+        content.add(instructionsTextPanel);
+        instructionsTextPanel.setBounds(
+                (content.getWidth()/2),
+                (content.getHeight()/2) - (instructionsTextPanel.getHeight()),
+                instructionsTextPanel.getWidth(),
+                instructionsTextPanel.getHeight()
+        );
+
+        // Set all components to invisible while main menu panel is up
+        bucket.setVisible(false); // TODO: figure out why this isn't disappearing -- probably because repainted by panel
+        // Possibility; could just set the background panel to not visible
+        scoreLabel.setVisible(false);
+        highScoreLabel.setVisible(false);
+        lifeCounterPanel.setVisible(false);
+
         // Start the music
         AudioLoader.playMusic(GameConstants.MUSIC_FILE);
 
@@ -79,10 +108,14 @@ public class DropCatcher {
         lives = 3;
     }
 
+    public void setGameStarted(boolean value){gameStarted = value;}
+
     public Container getContent(){return content;}
+    public MainMenuPanel getMainMenu(){return mainMenu;}
     public ArrayList<Drop> getDropsList(){return dropsList;}
     public Bucket getBucket(){return bucket;}
     public boolean getGameOver(){return gameOver;}
+    public boolean getGameStarted(){return gameStarted;}
 
     private void randomizeDropPosition(Drop drop){
         // Creates drops within the content pane and not too far to the right
@@ -148,6 +181,7 @@ public class DropCatcher {
         } else {
             lifeCounterPanel.getLives().removeFirst();
             gameOver = true;
+            gameStarted = false;
         }
         AudioLoader.playSound(GameConstants.LIFE_LOSS_FILE);
     }
@@ -160,7 +194,7 @@ public class DropCatcher {
                 bucket.getWidth(),
                 bucket.getHeight()
         );
-        System.out.println(bucket.getWidth());
+        //System.out.println(bucket.getWidth());
     }
 
     private void runCatchCondition(){
@@ -185,6 +219,26 @@ public class DropCatcher {
 
     private boolean checkHighScore(){
         return score > highScore;
+    }
+
+    public void startGame(){
+        gameStarted = true;
+        bucket.setVisible(true);
+        scoreLabel.setVisible(true);
+        highScoreLabel.setVisible(true);
+        lifeCounterPanel.setVisible(true);
+    }
+
+    public void showInstructions(){
+        mainMenu.setVisible(false);
+        instructionsTextPanel.setVisible(true);
+        content.repaint();
+    }
+
+    public void hideInstructions(){
+        instructionsTextPanel.setVisible(false);
+        mainMenu.setVisible(true);
+        content.repaint();
     }
 
 
