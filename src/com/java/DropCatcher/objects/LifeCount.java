@@ -21,8 +21,6 @@ public class LifeCount extends JComponent {
         height = ObjectConstants.HEART_HEIGHT;
 
         setBounds(xPos,yPos,width,height);
-
-        setVisible(true);
     }
 
     public BufferedImage getSprite(){return SPRITE;}

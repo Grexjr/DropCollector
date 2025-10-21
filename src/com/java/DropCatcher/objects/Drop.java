@@ -23,8 +23,6 @@ public class Drop extends JComponent {
         height = ObjectConstants.DROP_HEIGHT;
 
         setBounds(xPos,yPos,width,height);
-
-        setVisible(true);
     }
 
     public BufferedImage getSprite(){return SPRITE;}

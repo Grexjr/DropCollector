@@ -77,6 +77,16 @@ public class GameFrame extends JFrame {
                                 dropCatcher.getBucket().getHeight()
                         );
                     }
+
+                    // Ensure bucket does not go off left side of screen
+                    if (dropCatcher.getBucket().getX() < 0){
+                        dropCatcher.getBucket().setBounds(
+                                0,
+                                dropCatcher.getBucket().getY(),
+                                dropCatcher.getBucket().getWidth(),
+                                dropCatcher.getBucket().getHeight()
+                        );
+                    }
                 }
             });
             holdTimer.start();

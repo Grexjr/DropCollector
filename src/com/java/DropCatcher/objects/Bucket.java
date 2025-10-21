@@ -21,8 +21,6 @@ public class Bucket extends JComponent {
         yPos = 0;
 
         setBounds(xPos,yPos,width,height);
-
-        setVisible(true);
     }
 
     public BufferedImage getSprite(){return SPRITE;}

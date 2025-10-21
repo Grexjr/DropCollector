@@ -5,6 +5,7 @@ import com.java.DropCatcher.main.Main;
 import com.java.DropCatcher.objects.Bucket;
 import com.java.DropCatcher.objects.Drop;
 import com.java.DropCatcher.util.AudioLoader;
+import com.java.DropCatcher.util.SpriteLoader;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,8 +21,10 @@ public class DropCatcher {
 
     private final MainMenuPanel mainMenu;
     private final InstructionsTextPanel instructionsTextPanel;
+    private final GameOverPanel gameOverPanel;
 
     private final DropTimer dropTimer;
+
     private final Bucket bucket;
     private final ScoreLabel scoreLabel;
     private final HighScoreLabel highScoreLabel;
@@ -32,8 +35,13 @@ public class DropCatcher {
     private boolean gameStarted;
 
     public DropCatcher(){
+        // Basic references
         GameFrame frame = new GameFrame(this);
         content = frame.getContentPane();
+
+        // Initialize the audio loader and Sprite Loader
+        AudioLoader.init();
+        SpriteLoader.init();
 
         // Add the bucket
         bucket = new Bucket();
@@ -80,11 +88,21 @@ public class DropCatcher {
         instructionsTextPanel = new InstructionsTextPanel(this);
         content.add(instructionsTextPanel);
         instructionsTextPanel.setBounds(
-                (content.getWidth()/2),
-                (content.getHeight()/2) - (instructionsTextPanel.getHeight()),
+                mainMenu.getX(),
+                mainMenu.getY(),
                 instructionsTextPanel.getWidth(),
                 instructionsTextPanel.getHeight()
         );
+
+        // Add the game over panel
+        gameOverPanel = new GameOverPanel(this);
+        content.add(gameOverPanel);
+        gameOverPanel.setBounds(
+                0,
+                highScoreLabel.getY() + highScoreLabel.getHeight(),
+                gameOverPanel.getWidth(),
+                gameOverPanel.getHeight());
+        gameOverPanel.setVisible(false);
 
         // Set all components to invisible while main menu panel is up
         bucket.setVisible(false); // TODO: figure out why this isn't disappearing -- probably because repainted by panel
@@ -109,6 +127,7 @@ public class DropCatcher {
     }
 
     public void setGameStarted(boolean value){gameStarted = value;}
+    public void setScore(int newScore){score = newScore;}
 
     public Container getContent(){return content;}
     public MainMenuPanel getMainMenu(){return mainMenu;}
@@ -118,7 +137,7 @@ public class DropCatcher {
     public boolean getGameStarted(){return gameStarted;}
 
     private void randomizeDropPosition(Drop drop){
-        // Creates drops within the content pane and not too far to the right
+        // Creates drops within the content pane and not too far to the right or too far to the left
         int randX = RAND.nextInt(0, content.getWidth() - drop.getWidth());
         drop.setBounds(randX,0,drop.getWidth(),drop.getHeight());
         drop.repaint();
@@ -162,7 +181,6 @@ public class DropCatcher {
         removeDrops();
     }
 
-    // TODO: Change this method to removeOffScreenDrops, and add a method for decrementing life; loseLife()
     private void removeDrops(){
         // Need to decrement through array list because causes issues if you go forward through the arraylist
         for(int i = dropsList.size() - 1; i >= 0; i--){
@@ -180,10 +198,9 @@ public class DropCatcher {
             lifeCounterPanel.repaint();
         } else {
             lifeCounterPanel.getLives().removeFirst();
-            gameOver = true;
-            gameStarted = false;
+            endGame();
         }
-        AudioLoader.playSound(GameConstants.LIFE_LOSS_FILE);
+        AudioLoader.playLifeLoss();
     }
 
     private void initializeBucket(){
@@ -203,8 +220,10 @@ public class DropCatcher {
             Rectangle dropRect = dropsList.get(i).getBounds();
             Rectangle bucketRect = bucket.getBounds();
 
-            if(bucketRect.intersects(dropRect)){
-                AudioLoader.playSound(GameConstants.DROPLET_FILE);
+            // Checks if intersect AND 1/4 of bucket; below that will not catch, so not really sideways
+            if(bucketRect.intersects(dropRect) &&
+                    dropRect.getY() <= (bucketRect.getCenterY() - (double) bucket.getHeight() /4)){
+                AudioLoader.playDropSound();
                 dropsList.remove(dropsList.get(i));
                 score++;
                 scoreLabel.updateScore(score);
@@ -229,6 +248,15 @@ public class DropCatcher {
         lifeCounterPanel.setVisible(true);
     }
 
+    private void endGame(){
+        gameOver = true;
+        gameStarted = false;
+        dropsList.removeAll(dropsList);
+        content.setIgnoreRepaint(true);
+
+        gameOverPanel.setVisible(true);
+    }
+
     public void showInstructions(){
         mainMenu.setVisible(false);
         instructionsTextPanel.setVisible(true);
@@ -239,6 +267,24 @@ public class DropCatcher {
         instructionsTextPanel.setVisible(false);
         mainMenu.setVisible(true);
         content.repaint();
+    }
+
+    public void hideRestart(){
+        gameOverPanel.setVisible(false);
+    }
+
+    public void restartGame(){
+        highScore = score;
+        score = 0;
+        scoreLabel.updateScore(score);
+        lifeCounterPanel.refillLives();
+        dropsList.clear();
+        content.setIgnoreRepaint(false);
+
+        dropTimer.restartDurationAndSpeed();
+
+        gameOver = false;
+        gameStarted = true;
     }
 
 

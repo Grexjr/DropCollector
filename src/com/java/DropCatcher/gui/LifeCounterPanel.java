@@ -57,6 +57,14 @@ public class LifeCounterPanel extends JPanel {
 
     }
 
+    public void refillLives(){
+        for(int i = 0; i < MAX_LIVES; i++){
+            LifeCount heart = new LifeCount();
+            heartCounter.add(heart);
+            add(heart);
+        }
+    }
+
 
 
 

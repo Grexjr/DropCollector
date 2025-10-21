@@ -29,13 +29,17 @@ public class BackgroundPanel extends JPanel {
             g.drawImage(bgImage,0,0,getWidth(),getHeight(),null);
         }
 
-        for(Drop d : dropCatch.getDropsList()){
-            g.drawImage(d.getSprite(),d.getX(),d.getY(),d.getWidth(),d.getHeight(),null);
+        if(dropCatch.getDropsList() != null){
+            for (Drop d : dropCatch.getDropsList()) {
+                g.drawImage(d.getSprite(), d.getX(), d.getY(), d.getWidth(), d.getHeight(), null);
+            }
         }
 
         Bucket bucket = dropCatch.getBucket();
 
-        g.drawImage(bucket.getSprite(),bucket.getX(),bucket.getY(),bucket.getWidth(),bucket.getHeight(),null);
+        if(dropCatch.getBucket() != null){
+            g.drawImage(bucket.getSprite(), bucket.getX(), bucket.getY(), bucket.getWidth(), bucket.getHeight(), null);
+        }
     }
 
 

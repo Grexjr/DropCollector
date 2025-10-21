@@ -32,9 +32,7 @@ public class DropTimer {
         return new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                //if game started
-
-                // if game over not true
+                //if game started and if game over not true
                 if(!game.getGameOver() && game.getGameStarted()){
                     // Use current time for start time
                     if (startTime < 0) {
@@ -58,11 +56,15 @@ public class DropTimer {
                     for (int i = game.getDropsList().size() - 1; i >= 0; i--) {
                         game.moveDropDown(game.getDropsList().get(i));
                     }
-
                     game.getContent().repaint();
                 }
             }
         };
+    }
+
+    public void restartDurationAndSpeed(){
+        duration = 1000f;
+        dropSpeedMod = 0;
     }
 
 
