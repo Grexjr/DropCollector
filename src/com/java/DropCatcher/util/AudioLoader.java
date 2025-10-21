@@ -1,7 +1,7 @@
 package com.java.DropCatcher.util;
 
 import javax.sound.sampled.*;
-import java.io.File;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -22,20 +22,19 @@ public class AudioLoader {
     }
 
     private static Clip loadSoundClip(String sound){
-        try{
-            URL soundURL = AudioLoader.class.getResource("/assets/" + sound);
-
-            if (soundURL == null) {
-                System.out.println("AUDIO FILE NOT FOUND" + sound);
+        try (InputStream is = AudioLoader.class.getResourceAsStream("/assets/"+sound)){
+            if(is == null){
+                System.out.println("AUDIO FILE NOT FOUND: " + sound);
+                return null;
             }
 
-            // Convert the URL into an audio input stream to be used
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundURL);
-
-            Clip c = AudioSystem.getClip();
-            c.open(audioInputStream);
-            audioInputStream.close();
-            return c;
+            // Convert to AudioInputStream
+            try(AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(is))){
+                Clip c = AudioSystem.getClip();
+                c.open(audioInputStream);
+                audioInputStream.close();
+                return c;
+            }
         } catch (Exception e){
             e.printStackTrace();
             return null;
@@ -68,14 +67,14 @@ public class AudioLoader {
             if(audioSource == null){
                 System.out.println("AUDIO FILE NOT FOUND" + music);
             }
-            // Convert InputStream to AudioInputStream
-            AudioInputStream audioInput = AudioSystem.getAudioInputStream(audioSource);
 
-            musicClip = AudioSystem.getClip();
-            musicClip.open(audioInput);
-            audioInput.close();
-            musicClip.loop(Clip.LOOP_CONTINUOUSLY);
-            musicClip.start();
+            try(AudioInputStream audioInput = AudioSystem.getAudioInputStream(new BufferedInputStream(audioSource))){
+                musicClip = AudioSystem.getClip();
+                musicClip.open(audioInput);
+                audioInput.close();
+                musicClip.loop(Clip.LOOP_CONTINUOUSLY);
+                musicClip.start();
+            }
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException exception){
             exception.printStackTrace();
         }

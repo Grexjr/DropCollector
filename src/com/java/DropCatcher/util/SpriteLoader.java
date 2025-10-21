@@ -3,6 +3,7 @@ package com.java.DropCatcher.util;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -26,10 +27,11 @@ public class SpriteLoader {
     // Online better load sprite method from cache--hopefully prevents memory usage being high
     public static BufferedImage loadSprite(String assetFileName){
         return spriteCache.computeIfAbsent(assetFileName, key -> {
-            try {
-                return ImageIO.read(Objects.requireNonNull(SpriteLoader.class.getResource(String.format(
-                            "/assets/%s",
-                            key))));
+            try (InputStream is = SpriteLoader.class.getResourceAsStream("/assets/"+key)){
+                if(is == null){
+                    throw new IOException("Resource not found: "+key);
+                }
+                return ImageIO.read(is);
             } catch (IOException e){
                 e.printStackTrace();
                 return null;
