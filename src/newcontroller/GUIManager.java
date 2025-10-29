@@ -8,6 +8,7 @@ public class GUIManager {
     private final GameFrame frame;
     private final MenuScreen menu;
     private final InstructionsPanel instructions;
+    private final SettingsPanel settings;
     private final CreditsPanel credits;
 
     // Screens
@@ -19,6 +20,7 @@ public class GUIManager {
         frame = new GameFrame();
         menu = new MenuScreen(this);
         instructions = new InstructionsPanel(this);
+        settings = new SettingsPanel(this);
         credits = new CreditsPanel(this);
 
         gameScreen = new GameScreen(game);
@@ -45,7 +47,15 @@ public class GUIManager {
     }
 
     public void showSettings(){
+        //DEBUG
+        System.out.println(settings.getClass().getSimpleName()+"=shown;");
+        frame.swapScreen(settings);
+    }
 
+    public void hideSettings(){
+        //DEBUG
+        System.out.println(settings.getClass().getSimpleName()+"hidden;");
+        frame.swapScreen(menu);
     }
 
     public void showCredits(){
