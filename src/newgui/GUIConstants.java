@@ -24,6 +24,7 @@ public class GUIConstants {
     protected static final String START_BUTTON_STRING = "START GAME";
     protected static final String INSTRUCTIONS_BUTTON_STRING = "INSTRUCTIONS";
     protected static final String SETTINGS_BUTTON_STRING = "SETTINGS";
+    protected static final String CREDITS_BUTTON_STRING = "CREDITS";
 
     // Instructions panel variables
     protected static final int INSTRUCTIONS_TEXT_SIZE = 25;
@@ -34,6 +35,9 @@ public class GUIConstants {
             "and faster!\n\nTIP: You can only catch drops with the top of your bucket! That's how buckets work, duh.";
     protected static final String BACK_BUTTON_STRING = "BACK";
 
+    // Credits panel variables
+    protected static final String CREDITS_TEXT = "CREDITS:\n\n" +
+            "Programming: Gavin March\nAssets: Gavin March\nMusic: Dawson March\nBuilt with Java Swing";
 
     // Game screen variables
     protected static final BufferedImage GAME_BACKGROUND = SpriteLoader.loadSprite(CommonConstants.BACKGROUND_FILE);

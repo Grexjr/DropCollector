@@ -3,34 +3,47 @@ package newgui;
 import newcontroller.GUIManager;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class InstructionsPanel extends JPanel {
+public class CreditsPanel extends JPanel {
 
     private final GUIManager manager;
     private final ActionListener buttonListener;
 
-    public InstructionsPanel(GUIManager manager){
+    public CreditsPanel(GUIManager manager){
         this.manager = manager;
-        this.buttonListener = buildActionListener();
-        // Set layout
+        this.buttonListener = createButtonListener();
+
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 
-        // Add components
-        add(buildInstructionsText());
+        add(buildCredits());
         add(buildBackButton());
     }
 
-    private JTextArea buildInstructionsText(){
-        JTextArea text = new JTextArea(GUIConstants.INSTRUCTIONS_TEXT);
+    private ActionListener createButtonListener(){
+        return e -> {
+          manager.hideCredits();
+        };
+    }
+
+    private JTextPane buildCredits(){
+        JTextPane text = new JTextPane();
+        text.setText(GUIConstants.CREDITS_TEXT);
+        // Get the styled document
+        StyledDocument doc = text.getStyledDocument();
+        // Create a SimpleAttributeSet to center
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+
+        // Try catch block for the alignment
+        doc.setParagraphAttributes(0,doc.getLength(),center,false);
+
         text.setEditable(false);
         text.setFocusable(false);
-        text.setLineWrap(true);
         text.setBackground(Color.BLACK);
         text.setForeground(Color.WHITE);
         text.setFont(new Font("Gabriola",Font.PLAIN,GUIConstants.INSTRUCTIONS_TEXT_SIZE));
@@ -45,17 +58,6 @@ public class InstructionsPanel extends JPanel {
         back.setAlignmentX(CENTER_ALIGNMENT);
         return back;
     }
-
-    private ActionListener buildActionListener(){
-        return e -> {
-            manager.hideInstructions();
-        };
-    }
-
-
-
-
-
 
 
 
