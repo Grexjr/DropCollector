@@ -3,7 +3,6 @@ package newobjects;
 public class GameWorld {
 
     private final int width,height;
-    private double friction;
 
     public GameWorld(int width, int height){
         this.width = width;
