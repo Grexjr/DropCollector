@@ -30,7 +30,7 @@ public class MenuScreen extends AbstractScreen {
         add(buildStartButton());
         add(buildInstructionsButton());
         add(buildSettingsButton());
-
+        add(buildCreditsButton());
     }
 
     private ActionListener buildActionListener(){
@@ -41,6 +41,7 @@ public class MenuScreen extends AbstractScreen {
                 case GUIConstants.START_BUTTON_STRING -> manager.startGame();
                 case GUIConstants.INSTRUCTIONS_BUTTON_STRING -> manager.showInstructions();
                 case GUIConstants.SETTINGS_BUTTON_STRING -> manager.showSettings();
+                case GUIConstants.CREDITS_BUTTON_STRING -> manager.showCredits();
             }
         };
     }
@@ -78,6 +79,15 @@ public class MenuScreen extends AbstractScreen {
         settings.addActionListener(buttonListener);
         settings.setAlignmentX(CENTER_ALIGNMENT);
         return settings;
+    }
+
+    private JButton buildCreditsButton(){
+        JButton credits = new JButton(GUIConstants.CREDITS_BUTTON_STRING);
+        credits.setFont(new Font("Gabriola",Font.PLAIN,GUIConstants.BUTTON_TEXT_SIZE));
+        //TODO: Customize button
+        credits.addActionListener(buttonListener);
+        credits.setAlignmentX(CENTER_ALIGNMENT);
+        return credits;
     }
 
 

@@ -1,9 +1,6 @@
 package newcontroller;
 
-import newgui.GameFrame;
-import newgui.GameScreen;
-import newgui.InstructionsPanel;
-import newgui.MenuScreen;
+import newgui.*;
 
 public class GUIManager {
 
@@ -11,6 +8,8 @@ public class GUIManager {
     private final GameFrame frame;
     private final MenuScreen menu;
     private final InstructionsPanel instructions;
+    private final SettingsPanel settings;
+    private final CreditsPanel credits;
 
     // Screens
     private final GameScreen gameScreen;
@@ -21,6 +20,8 @@ public class GUIManager {
         frame = new GameFrame();
         menu = new MenuScreen(this);
         instructions = new InstructionsPanel(this);
+        settings = new SettingsPanel(this);
+        credits = new CreditsPanel(this);
 
         gameScreen = new GameScreen(game);
         onStartup();
@@ -31,7 +32,11 @@ public class GUIManager {
         frame.swapScreen(menu);
     }
 
-    public void startGame(){}
+    public void startGame(){
+        //DEBUG
+        System.out.println(game.getClass().getSimpleName() + "=started;");
+        frame.swapScreen(gameScreen);
+    }
 
     public void showInstructions(){
         frame.swapScreen(instructions);
@@ -41,7 +46,29 @@ public class GUIManager {
         frame.swapScreen(menu);
     }
 
-    public void showSettings(){}
+    public void showSettings(){
+        //DEBUG
+        System.out.println(settings.getClass().getSimpleName()+"=shown;");
+        frame.swapScreen(settings);
+    }
+
+    public void hideSettings(){
+        //DEBUG
+        System.out.println(settings.getClass().getSimpleName()+"hidden;");
+        frame.swapScreen(menu);
+    }
+
+    public void showCredits(){
+        //DEBUG
+        System.out.println(credits.getClass().getSimpleName()+"=shown;");
+        frame.swapScreen(credits);
+    }
+
+    public void hideCredits(){
+        //DEBUG
+        System.out.println(credits.getClass().getSimpleName()+"=hidden;");
+        frame.swapScreen(menu);
+    }
 
 
 }
