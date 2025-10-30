@@ -13,7 +13,7 @@ public class GameFrame extends JFrame {
         // Set up the JFrame
         setTitle(GUIConstants.WINDOW_TITLE);
         setLayout(null);
-        setSize(new Dimension(GUIConstants.WINDOW_SIZE[0], GUIConstants.WINDOW_SIZE[1]));
+        setMinimumSize(new Dimension(GUIConstants.WINDOW_SIZE[0], GUIConstants.WINDOW_SIZE[1]));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }

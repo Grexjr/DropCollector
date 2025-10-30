@@ -69,6 +69,10 @@ public abstract class AbstractObject extends JComponent {
         this.rectangle = rectangle;
     }
 
+    public void updateRectangle(){
+        this.rectangle = new Rectangle(absX,absY,absWidth,absHeight);
+    }
+
     // All objects must exist inside the game world
     public abstract void init(GameWorld world); // Overridden by subclasses to set basic things (can probably move sprite in here)
 }

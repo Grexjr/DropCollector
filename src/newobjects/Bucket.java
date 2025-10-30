@@ -16,10 +16,12 @@ public class Bucket extends AbstractObject {
     @Override
     public void init(GameWorld world){
         setAbsWidth((int) (world.getWidth() * ObjectConstants.OBJECT_SCALE_FACTOR));
-        setAbsHeight((int) (world.getHeight() * ObjectConstants.OBJECT_SCALE_FACTOR));
+        setAbsHeight((int) (world.getHeight() * (ObjectConstants.OBJECT_SCALE_FACTOR * 1.5)));
 
-        setAbsX((world.getWidth()/2));
+        setAbsX((world.getWidth()/2) - (this.getAbsWidth()/2));
         setAbsY((world.getHeight() - this.getAbsHeight()));
+
+        updateRectangle();
     }
 
     public void moveBucket(int xPos){
