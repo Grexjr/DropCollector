@@ -43,6 +43,7 @@ public class GUIManager {
         //DEBUG
         System.out.println(game.getClass().getSimpleName() + "=started;");
         frame.swapScreen(gameScreen);
+        game.startLoop();
     }
 
     public void showInstructions(){
@@ -83,6 +84,15 @@ public class GUIManager {
 
     double calculateScaleRatioY(){
         return (double) (getContent().getHeight())/(game.getObjects().getWorld().getHeight());
+    }
+
+    // Game Screen methods
+    public boolean runGameInput(){
+        return gameScreen.getPressed();
+    }
+
+    public int getClickX(){
+        return gameScreen.getMouseX();
     }
 
 

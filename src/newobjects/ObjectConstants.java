@@ -8,7 +8,7 @@ public class ObjectConstants {
 
 
     // General object data
-    public static final double OBJECT_SCALE_FACTOR = 0.15;
+    public static final double OBJECT_SCALE_FACTOR = 0.1;
     public static final int OBJECT_MOVE_SPEED = 10;
 
     // World data
