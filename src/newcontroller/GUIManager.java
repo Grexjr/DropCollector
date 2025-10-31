@@ -1,6 +1,9 @@
 package newcontroller;
 
 import newgui.*;
+import newobjects.abstracta.AbstractObject;
+
+import java.awt.*;
 
 public class GUIManager {
 
@@ -16,7 +19,7 @@ public class GUIManager {
 
     public GUIManager(){
         // Initialize
-        game = new DropCatcher();
+        game = new DropCatcher(this);
         frame = new GameFrame();
         menu = new MenuScreen(this);
         instructions = new InstructionsPanel(this);
@@ -25,6 +28,10 @@ public class GUIManager {
 
         gameScreen = new GameScreen(game);
         onStartup();
+    }
+
+    public Container getContent(){
+        return frame.getContentPane();
     }
 
     private void onStartup(){
@@ -36,6 +43,7 @@ public class GUIManager {
         //DEBUG
         System.out.println(game.getClass().getSimpleName() + "=started;");
         frame.swapScreen(gameScreen);
+        game.startLoop();
     }
 
     public void showInstructions(){
@@ -68,6 +76,23 @@ public class GUIManager {
         //DEBUG
         System.out.println(credits.getClass().getSimpleName()+"=hidden;");
         frame.swapScreen(menu);
+    }
+
+    double calculateScaleRatioX(){
+        return (double)(getContent().getWidth())/game.getObjects().getWorld().getWidth();
+    }
+
+    double calculateScaleRatioY(){
+        return (double) (getContent().getHeight())/(game.getObjects().getWorld().getHeight());
+    }
+
+    // Game Screen methods
+    public boolean runGameInput(){
+        return gameScreen.getPressed();
+    }
+
+    public int getClickX(){
+        return gameScreen.getMouseX();
     }
 
 
