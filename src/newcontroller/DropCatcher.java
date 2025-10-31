@@ -37,9 +37,12 @@ public class DropCatcher {
         loop.start();
     }
 
-    /// Executes every frame
+    /// MAIN GAME LOOP - EXECUTES EVERY FRAME
     public void update(){
+        // Repaint content pane every frame
         gui.getContent().repaint();
+
+        // Run player input
         if(gui.runGameInput()){
             objects.getBucket().moveBucket(
                     (int)(gui.getClickX()/gui.calculateScaleRatioX()

@@ -1,5 +1,6 @@
 package newgui;
 
+import com.java.DropCatcher.util.SpriteLoader;
 import newcontroller.GUIManager;
 import newgui.abstracta.AbstractScreen;
 
@@ -11,6 +12,7 @@ public class MenuScreen extends AbstractScreen {
 
     private final GUIManager manager;
     private final ActionListener buttonListener;
+    private final Image backgroundImage;
 
     private final InstructionsPanel instructionsPanel;
 
@@ -19,11 +21,9 @@ public class MenuScreen extends AbstractScreen {
         this.manager = manager;
         buttonListener = buildActionListener();
         instructionsPanel = new InstructionsPanel(this.manager);
+        backgroundImage = SpriteLoader.loadSprite("BeautifulBackGround.png");
 
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-
-        // Set the background to be black (no screen behind it to show)
-        setBackground(Color.BLACK);
 
         // Add the components
         add(buildTitleLabel());
@@ -31,6 +31,15 @@ public class MenuScreen extends AbstractScreen {
         add(buildInstructionsButton());
         add(buildSettingsButton());
         add(buildCreditsButton());
+    }
+
+    @Override
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+
+        if(backgroundImage != null){
+            g.drawImage(backgroundImage,0,0,getWidth(),getHeight(),null);
+        }
     }
 
     private ActionListener buildActionListener(){

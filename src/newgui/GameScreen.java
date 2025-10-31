@@ -3,11 +3,13 @@ package newgui;
 import newcontroller.DropCatcher;
 import newgui.abstracta.AbstractScreen;
 import newobjects.Bucket;
+import newobjects.Droplet;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 public class GameScreen extends AbstractScreen {
 
@@ -34,9 +36,39 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D)g;
+
+        drawPlayer(g2);
+        drawDrops(g2);
+    }
+
+    private void drawDrops(Graphics2D g2){
+        ArrayList<Droplet> drops = game.getObjects().getDroplets();
+
+        for(Droplet d : drops){
+            Rectangle dRect = (Rectangle)d.getRectangle();
+
+            dRect.setBounds(
+                    game.calculateScreenXPos(d),
+                    game.calculateScreenYPos(d),
+                    game.calculateScreenDimension(d.getAbsWidth()),
+                    game.calculateScreenDimension(d.getAbsHeight())
+            );
+
+            g2.drawImage(
+                    d.getSprite(),
+                    (int)dRect.getX(),
+                    (int)dRect.getY(),
+                    (int)dRect.getWidth(),
+                    (int)dRect.getHeight(),
+                    null
+            );
+        }
+    }
+
+    private void drawPlayer(Graphics2D g2){
         Bucket player = game.getObjects().getBucket();
         Rectangle playerRect = (Rectangle)player.getRectangle();
-        Graphics2D g2 = (Graphics2D)g;
 
         playerRect.setBounds(
                 game.calculateScreenXPos(player),
@@ -44,8 +76,6 @@ public class GameScreen extends AbstractScreen {
                 game.calculateScreenDimension(player.getAbsWidth()),
                 game.calculateScreenDimension(player.getAbsHeight())
         );
-
-        game.getObjects().getBucket().setRectangle(playerRect);
 
         g2.drawImage(
                 player.getSprite(),
@@ -55,15 +85,18 @@ public class GameScreen extends AbstractScreen {
                 (int)playerRect.getHeight(),
                 null
         );
-
-
     }
 
     private MouseAdapter buildMouseInput(){
         return new MouseAdapter() {
             @Override
-            public void mouseDragged(MouseEvent e){
+            public void mousePressed(MouseEvent e) {
                 onMousePress(e);
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e){
+                onMouseDrag(e);
             }
 
             @Override
@@ -76,6 +109,9 @@ public class GameScreen extends AbstractScreen {
     private void onMousePress(MouseEvent e){
         //DEBUG
         System.out.println(e.getSource()+"=clicked;");
+    }
+
+    private void onMouseDrag(MouseEvent e){
         isPressed = true;
         mouseX = e.getX();
     }

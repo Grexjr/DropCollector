@@ -15,10 +15,12 @@ public class Droplet extends AbstractObject {
 
     @Override
     public void init(GameWorld world){
-        setAbsWidth((int) (world.getWidth() * ObjectConstants.OBJECT_SCALE_FACTOR));
-        setAbsHeight((int) (world.getHeight() * ObjectConstants.OBJECT_SCALE_FACTOR * 2));
+        setAbsWidth((int) (world.getWidth() * ObjectConstants.DROPLET_SCALE_FACTOR));
+        setAbsHeight((int) (world.getHeight() * ObjectConstants.DROPLET_SCALE_FACTOR * 3));
 
-        // No setting position, occurs in the game method
+        // Default position of 0 , 0 before being set in the randomize method
+        setAbsX(0);
+        setAbsY(0);
     }
 
     public void moveDroplet(){

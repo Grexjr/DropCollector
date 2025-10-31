@@ -8,12 +8,18 @@ public class ObjectConstants {
 
 
     // General object data
-    public static final double OBJECT_SCALE_FACTOR = 0.1;
+
     public static final int OBJECT_MOVE_SPEED = 10;
 
     // World data
     public static final int WORLD_WIDTH = 1600;
     public static final int WORLD_HEIGHT = 900;
+
+    // Bucket data
+    public static final double BUCKET_SCALE_FACTOR = 0.1;
+
+    // Droplet data
+    public static final double DROPLET_SCALE_FACTOR = 0.03;
 
 
 
