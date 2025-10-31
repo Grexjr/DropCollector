@@ -24,7 +24,7 @@ public class Droplet extends AbstractObject {
     }
 
     public void moveDroplet(){
-        setAbsY(getAbsY()-ObjectConstants.OBJECT_MOVE_SPEED);
+        setAbsY(getAbsY()+ObjectConstants.OBJECT_MOVE_SPEED);
     }
 
 

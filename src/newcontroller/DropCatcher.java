@@ -1,5 +1,6 @@
 package newcontroller;
 
+import newobjects.Droplet;
 import newobjects.abstracta.AbstractObject;
 
 public class DropCatcher {
@@ -41,6 +42,11 @@ public class DropCatcher {
     public void update(){
         // Repaint content pane every frame
         gui.getContent().repaint();
+
+        // Move the droplets down
+        for(Droplet d : objects.getDroplets()){
+            d.moveDroplet();
+        }
 
         // Run player input
         if(gui.runGameInput()){

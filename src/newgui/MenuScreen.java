@@ -14,13 +14,10 @@ public class MenuScreen extends AbstractScreen {
     private final ActionListener buttonListener;
     private final Image backgroundImage;
 
-    private final InstructionsPanel instructionsPanel;
-
     public MenuScreen(GUIManager manager){
         super(null,null);
         this.manager = manager;
         buttonListener = buildActionListener();
-        instructionsPanel = new InstructionsPanel(this.manager);
         backgroundImage = SpriteLoader.loadSprite("BeautifulBackGround.png");
 
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
