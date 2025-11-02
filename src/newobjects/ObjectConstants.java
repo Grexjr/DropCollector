@@ -17,6 +17,7 @@ public class ObjectConstants {
 
     // Bucket data
     public static final double BUCKET_SCALE_FACTOR = 0.1;
+    public static final double BUCKET_COLLISION_MOD = 0.2; // Only top 5th of the bucket
 
     // Droplet data
     public static final double DROPLET_SCALE_FACTOR = 0.03;

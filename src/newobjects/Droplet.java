@@ -3,6 +3,7 @@ package newobjects;
 import com.java.DropCatcher.util.SpriteLoader;
 import newobjects.abstracta.AbstractObject;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Droplet extends AbstractObject {
@@ -25,6 +26,10 @@ public class Droplet extends AbstractObject {
 
     public void moveDroplet(){
         setAbsY(getAbsY()+ObjectConstants.OBJECT_MOVE_SPEED);
+    }
+
+    public boolean checkDropCollision(Rectangle collider){
+        return this.getRectangle().intersects(collider);
     }
 
 

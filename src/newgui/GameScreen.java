@@ -4,6 +4,7 @@ import newcontroller.DropCatcher;
 import newgui.abstracta.AbstractScreen;
 import newobjects.Bucket;
 import newobjects.Droplet;
+import newobjects.ObjectConstants;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -38,8 +39,8 @@ public class GameScreen extends AbstractScreen {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
-        drawPlayer(g2);
         drawDrops(g2);
+        drawPlayer(g2);
     }
 
     private void drawDrops(Graphics2D g2){
@@ -74,7 +75,7 @@ public class GameScreen extends AbstractScreen {
                 game.calculateScreenXPos(player),
                 game.calculateScreenYPos(player),
                 game.calculateScreenDimension(player.getAbsWidth()),
-                game.calculateScreenDimension(player.getAbsHeight())
+                game.calculateScreenDimension((int) (player.getAbsHeight() * ObjectConstants.BUCKET_COLLISION_MOD))
         );
 
         g2.drawImage(
@@ -82,7 +83,7 @@ public class GameScreen extends AbstractScreen {
                 (int)playerRect.getX(),
                 (int)playerRect.getY(),
                 (int)playerRect.getWidth(),
-                (int)playerRect.getHeight(),
+                game.calculateScreenDimension(player.getAbsHeight()),
                 null
         );
     }

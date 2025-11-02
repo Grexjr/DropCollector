@@ -3,6 +3,8 @@ package newcontroller;
 import newobjects.Droplet;
 import newobjects.abstracta.AbstractObject;
 
+import java.awt.*;
+
 public class DropCatcher {
 
     private final GUIManager gui;
@@ -43,11 +45,6 @@ public class DropCatcher {
         // Repaint content pane every frame
         gui.getContent().repaint();
 
-        // Move the droplets down
-        for(Droplet d : objects.getDroplets()){
-            d.moveDroplet();
-        }
-
         // Run player input
         if(gui.runGameInput()){
             objects.getBucket().moveBucket(
@@ -62,6 +59,17 @@ public class DropCatcher {
                 objects.getBucket().moveBucket(0);
             }
         }
+
+        // Move the droplets down
+        for(int i = objects.getDroplets().size()-1; i >= 0; i--){
+            objects.getDroplets().get(i).moveDroplet();
+            // Run collision check
+            if(objects.getDroplets().get(i).checkDropCollision((Rectangle)objects.getBucket().getRectangle())){
+                objects.getDroplets().remove(i);
+            }
+        }
+
+
 
 
     }
