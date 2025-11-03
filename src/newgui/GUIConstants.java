@@ -39,10 +39,8 @@ public class GUIConstants {
     protected static final String CREDITS_TEXT = "CREDITS:\n\n" +
             "Programming: Gavin March\nAssets: Gavin March\nMusic: Dawson March\nBuilt with Java Swing";
 
-    // Game screen variables
-    protected static final BufferedImage GAME_BACKGROUND = SpriteLoader.loadSprite(CommonConstants.BACKGROUND_FILE);
-
-
+    // Background image variables
+    public static final String GAME_BACKGROUND_PATH = "BeautifulBackGround.png";
 
 
 

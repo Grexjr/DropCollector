@@ -11,12 +11,18 @@ public class DropCatcher {
     private final ObjectManager objects;
     private final GameLoop loop;
 
+    private int dropDelay,dropTimer;
+
+
     //TODO: add db mode that draws object rectangles etc.
 
     public DropCatcher(GUIManager gui){
         this.gui = gui;
         objects = new ObjectManager();
         loop = new GameLoop(this);
+
+        dropDelay = GameConstants.INITIAL_DELAY;
+        dropTimer = 0;
     }
 
     public ObjectManager getObjects(){
@@ -67,9 +73,21 @@ public class DropCatcher {
             if(objects.getDroplets().get(i).checkDropCollision((Rectangle)objects.getBucket().getRectangle())){
                 objects.getDroplets().remove(i);
             }
+            if(objects.getDroplets().get(i).getAbsY() >= objects.getWorld().getHeight()){
+                objects.getDroplets().remove(i);
+                System.out.println("DropNum: "+objects.getDroplets().size());
+            }
         }
 
+        // Create a droplet if the condition is met
+        if(dropTimer >= dropDelay){
+            dropTimer = 0;
+            objects.createDroplet();
+            dropDelay--;
+            System.out.println(dropDelay);
+        }
 
+        dropTimer++;
 
 
     }

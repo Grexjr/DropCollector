@@ -1,5 +1,6 @@
 package newgui;
 
+import com.java.DropCatcher.util.SpriteLoader;
 import newcontroller.DropCatcher;
 import newgui.abstracta.AbstractScreen;
 import newobjects.Bucket;
@@ -21,7 +22,7 @@ public class GameScreen extends AbstractScreen {
     private int mouseX;
 
     public GameScreen(DropCatcher game){
-        super(null,GUIConstants.GAME_BACKGROUND);
+        super(null, SpriteLoader.loadSprite(GUIConstants.GAME_BACKGROUND_PATH));
         this.game = game;
         mouseAdapter = buildMouseInput();
         isPressed = false;

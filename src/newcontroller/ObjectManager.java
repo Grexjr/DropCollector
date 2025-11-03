@@ -23,7 +23,6 @@ public class ObjectManager {
 
         // Init the bucket before putting it to the screen
         bucket.init(world);
-        createDroplet();
     }
 
     public GameWorld getWorld() {

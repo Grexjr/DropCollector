@@ -1,6 +1,7 @@
 package newcontroller;
 
 import newgui.*;
+import newgui.abstracta.AbstractScreen;
 import newobjects.abstracta.AbstractObject;
 
 import java.awt.*;
@@ -9,24 +10,20 @@ public class GUIManager {
 
     private final DropCatcher game;
     private final GameFrame frame;
-    private final MenuScreen menu;
-    private final InstructionsPanel instructions;
-    private final SettingsPanel settings;
-    private final CreditsPanel credits;
+
+    private MenuScreen menu;
+    private InstructionsPanel instructions;
+    private SettingsPanel settings;
+    private CreditsPanel credits;
 
     // Screens
-    private final GameScreen gameScreen;
+    private GameScreen gameScreen;
 
     public GUIManager(){
         // Initialize
         game = new DropCatcher(this);
         frame = new GameFrame();
-        menu = new MenuScreen(this);
-        instructions = new InstructionsPanel(this);
-        settings = new SettingsPanel(this);
-        credits = new CreditsPanel(this);
 
-        gameScreen = new GameScreen(game);
         onStartup();
     }
 
@@ -34,28 +31,38 @@ public class GUIManager {
         return frame.getContentPane();
     }
 
+    public void changeScreen(AbstractScreen last, AbstractScreen current){
+        last.dispose();
+        frame.swapScreen(current);
+    }
+
     private void onStartup(){
         frame.setVisible(true);
+        menu = new MenuScreen(this);
         frame.swapScreen(menu);
     }
 
     public void startGame(){
         //DEBUG
         System.out.println(game.getClass().getSimpleName() + "=started;");
-        frame.swapScreen(gameScreen);
+        gameScreen = new GameScreen(game);
+        changeScreen(menu,gameScreen);
         game.startLoop();
     }
 
     public void showInstructions(){
+        instructions = new InstructionsPanel(this);
         frame.swapScreen(instructions);
     }
 
     public void hideInstructions(){
+        instructions = null; // DISPOSE: TODO: make centralized method for this
         frame.swapScreen(menu);
     }
 
     public void showSettings(){
         //DEBUG
+        settings = new SettingsPanel(this);
         System.out.println(settings.getClass().getSimpleName()+"=shown;");
         frame.swapScreen(settings);
     }
@@ -63,11 +70,13 @@ public class GUIManager {
     public void hideSettings(){
         //DEBUG
         System.out.println(settings.getClass().getSimpleName()+"hidden;");
+        settings = null;
         frame.swapScreen(menu);
     }
 
     public void showCredits(){
         //DEBUG
+        credits = new CreditsPanel(this);
         System.out.println(credits.getClass().getSimpleName()+"=shown;");
         frame.swapScreen(credits);
     }
@@ -75,6 +84,7 @@ public class GUIManager {
     public void hideCredits(){
         //DEBUG
         System.out.println(credits.getClass().getSimpleName()+"=hidden;");
+        credits = null;
         frame.swapScreen(menu);
     }
 
