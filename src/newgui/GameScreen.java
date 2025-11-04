@@ -30,7 +30,8 @@ public class GameScreen extends AbstractScreen {
         this.game = game;
         mouseAdapter = buildMouseInput();
         scoreLabel = new ScoreLabel();
-        highScoreLabel = new HighScoreLabel();
+        highScoreLabel = new HighScoreLabel(game.getHighScore());
+
         isPressed = false;
 
         add(game.getObjects().getBucket());

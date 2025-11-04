@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class HighScoreLabel extends JLabel {
 
-    public HighScoreLabel(){
-        super(GUIConstants.HIGH_SCORE_STRING + 0);
+    public HighScoreLabel(int score){
+        super(GUIConstants.HIGH_SCORE_STRING + score);
         setFont(new Font("Gabriola", Font.PLAIN,GUIConstants.SCORE_SIZE/2));
         setForeground(Color.WHITE);
     }

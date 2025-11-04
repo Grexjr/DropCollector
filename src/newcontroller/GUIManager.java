@@ -18,6 +18,7 @@ public class GUIManager {
 
     // Screens
     private GameScreen gameScreen;
+    private GameOverPanel gameOver;
 
     public GUIManager(){
         // Initialize
@@ -111,6 +112,20 @@ public class GUIManager {
 
     public void updateHighScoreLabel(int score){
         gameScreen.getHighScoreLabel().updateHighScore(score);
+    }
+
+    public void runGameOver(){
+        updateHighScoreLabel(game.getHighScore());
+        gameOver = new GameOverPanel(this);
+        frame.swapScreen(gameOver);
+    }
+
+    // Game over methods
+    public void restartGame(){
+        gameScreen = new GameScreen(game);
+        menu = new MenuScreen(this); //Not ideal but because my gui code is messed the F*** up
+        gameOver = null;
+        startGame();
     }
 
 

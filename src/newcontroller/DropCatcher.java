@@ -36,6 +36,8 @@ public class DropCatcher {
     public ObjectManager getObjects(){
         return objects;
     }
+    public int getScore(){return score;}
+    public int getHighScore(){return highScore;}
 
     public int calculateScreenXPos(AbstractObject object){
         return (int)(object.getAbsX() * gui.calculateScaleRatioX());
@@ -51,6 +53,7 @@ public class DropCatcher {
     }
 
     public void startLoop(){
+        gameOver = false;
         loop.start();
     }
 
@@ -122,12 +125,27 @@ public class DropCatcher {
             getObjects().getLives().removeLast();
         } else {
             getObjects().getLives().removeLast();
-            gameOver = true;
+            runGameOver();
         }
         //AudioLoader.playLifeLoss();
     }
 
-    //TODO: Change this to a better system not based on maximum droplets being reached, but game time
+    private void runGameOver(){
+        loop.stop();
+        resetValues();
+        gui.runGameOver();
+        gameOver = true;
+    }
+
+    private void resetValues(){
+        objects.initializeLives();
+        objects.getDroplets().clear();
+        dropDelay = GameConstants.INITIAL_DELAY;
+        speedMod = GameConstants.INITIAL_SPEED_MOD;
+        highScore = score;
+        score = 0;
+    }
+
     private void createDroplets(){
         if(dropTimer >= dropDelay){
             dropTimer = 0;

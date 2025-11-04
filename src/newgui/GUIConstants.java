@@ -47,4 +47,10 @@ public class GUIConstants {
     protected static final String HIGH_SCORE_STRING = "High Score: ";
     protected static final int SCORE_SIZE = 50;
 
+    // Game Over Panel Variables
+    protected static final String GAME_OVER_STRING = "GAME OVER!";
+    protected static final int GAME_OVER_SIZE = 75;
+    protected static final String RESTART_STRING = "RESTART";
+    protected static final String MAIN_MENU_STRING = "MAIN MENU";
+
 }
