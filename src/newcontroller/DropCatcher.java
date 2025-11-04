@@ -141,6 +141,7 @@ public class DropCatcher {
         objects.initializeLives();
         objects.getDroplets().clear();
         dropDelay = GameConstants.INITIAL_DELAY;
+        rawDelay = dropDelay;
         speedMod = GameConstants.INITIAL_SPEED_MOD;
         highScore = score;
         score = 0;
