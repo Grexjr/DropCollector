@@ -3,6 +3,7 @@ package newcontroller;
 public class GameConstants {
 
     protected static final int TARGET_FPS = 60;
+    protected static final String MUSIC_FILE = "Vacancy.cut.wav";
 
     public static final double INITIAL_SPEED_MOD = 1.0;
     public static final double SPEED_MOD_INCREASE = 0.005;

@@ -1,6 +1,7 @@
 package newcontroller;
 
 import com.java.DropCatcher.util.AudioLoader;
+import com.java.DropCatcher.util.SpriteLoader;
 import newobjects.Droplet;
 import newobjects.abstracta.AbstractObject;
 
@@ -22,6 +23,9 @@ public class DropCatcher {
         this.gui = gui;
         objects = new ObjectManager();
         loop = new GameLoop(this);
+        // Initialize the audio loader and Sprite Loader
+        AudioLoader.init();
+        SpriteLoader.init();
 
         dropDelay = GameConstants.INITIAL_DELAY;
         rawDelay = dropDelay;
@@ -92,10 +96,12 @@ public class DropCatcher {
 
     private void runDroplets(){
         for(int i = objects.getDroplets().size()-1; i >= 0; i--){
+
             // Check to make sure there are droplets
             if(!objects.getDroplets().isEmpty()){
                 objects.getDroplets().get(i).moveDroplet(dropSpeed,speedMod);
             }
+
             // Run collision check if there are droplets
             if(!objects.getDroplets().isEmpty()){
                 if (objects.getDroplets().get(i).checkDropCollision((Rectangle) objects.getBucket().getRectangle())) {
@@ -106,8 +112,10 @@ public class DropCatcher {
                         gui.updateHighScoreLabel(highScore);
                     }
                     gui.updateScoreLabel(score);
+                    AudioLoader.playDropSound();
                 }
             }
+
             // Run the removal if drop goes below world and there are droplets left and lose life
             if(!objects.getDroplets().isEmpty()){
                 if (objects.getDroplets().get(i).getAbsY() >= objects.getWorld().getHeight()) {
@@ -127,7 +135,7 @@ public class DropCatcher {
             getObjects().getLives().removeLast();
             runGameOver();
         }
-        //AudioLoader.playLifeLoss();
+        AudioLoader.playLifeLoss();
     }
 
     private void runGameOver(){
@@ -143,7 +151,6 @@ public class DropCatcher {
         dropDelay = GameConstants.INITIAL_DELAY;
         rawDelay = dropDelay;
         speedMod = GameConstants.INITIAL_SPEED_MOD;
-        highScore = score;
         score = 0;
     }
 

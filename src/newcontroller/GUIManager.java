@@ -1,6 +1,7 @@
 package newcontroller;
 
 import com.java.DropCatcher.gui.MainMenuPanel;
+import com.java.DropCatcher.util.AudioLoader;
 import newgui.*;
 import newgui.abstracta.AbstractScreen;
 import newobjects.abstracta.AbstractObject;
@@ -42,6 +43,8 @@ public class GUIManager {
         frame.setVisible(true);
         menu = new MenuScreen(this);
         frame.swapScreen(menu);
+        // Start the music
+        AudioLoader.playMusic(GameConstants.MUSIC_FILE);
     }
 
     public void startGame(){
