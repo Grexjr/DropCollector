@@ -18,6 +18,9 @@ public class GUIConstants {
     protected static final String WINDOW_TITLE = "Drop Catcher";
     protected static final int[] WINDOW_SIZE = {800,600};
 
+    // Background image variables
+    public static final String GAME_BACKGROUND_PATH = "BeautifulBackGround.png";
+
     // Main menu variables
     protected static final String GAME_TITLE = "DROP CATCHER";
     protected static final int TITLE_SIZE = 100;
@@ -39,28 +42,15 @@ public class GUIConstants {
     protected static final String CREDITS_TEXT = "CREDITS:\n\n" +
             "Programming: Gavin March\nAssets: Gavin March\nMusic: Dawson March\nBuilt with Java Swing";
 
-    // Game screen variables
-    protected static final BufferedImage GAME_BACKGROUND = SpriteLoader.loadSprite(CommonConstants.BACKGROUND_FILE);
-
-
-
-
-
-    protected static final int[] MAIN_MENU_SIZE = {1000,1000};
-
-
-    protected static final int[] INSTRUCTIONS_PANEL_SIZE = {800,500};
-
-    protected static final int[] GAME_OVER_PANEL_SIZE = {2500,1000};
-    protected static final String GAME_OVER_STRING = "GAME OVER!";
-    protected static final String RESTART_BUTTON_STRING = "RESTART";
-
-    protected static final String SCORE_STRING = "Score: ";
-    protected static final int[]  SCORE_SIZE = {500,100};
-
+    // Game Screen variables
+    protected static final String SCORE_LABEL_STRING = "Score: ";
     protected static final String HIGH_SCORE_STRING = "High Score: ";
-    protected static final int[] HIGH_SCORE_SIZE = {200,50};
+    protected static final int SCORE_SIZE = 50;
 
-    protected static final int[] HEART_COUNTER_SIZE = {500,500};
+    // Game Over Panel Variables
+    protected static final String GAME_OVER_STRING = "GAME OVER!";
+    protected static final int GAME_OVER_SIZE = 75;
+    protected static final String RESTART_STRING = "RESTART";
+    protected static final String MAIN_MENU_STRING = "MAIN MENU";
 
 }

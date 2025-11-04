@@ -3,14 +3,13 @@ package newobjects;
 import com.java.DropCatcher.util.SpriteLoader;
 import newobjects.abstracta.AbstractObject;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Droplet extends AbstractObject {
 
-    private static final BufferedImage SPRITE = SpriteLoader.loadSprite(ObjectConstants.DROPLET_SPRITE_FILE);
-
     public Droplet(){
-        super(SPRITE);
+        super(SpriteLoader.loadSprite(ObjectConstants.DROPLET_SPRITE_FILE));
     }
 
     @Override
@@ -23,8 +22,14 @@ public class Droplet extends AbstractObject {
         setAbsY(0);
     }
 
-    public void moveDroplet(){
-        setAbsY(getAbsY()+ObjectConstants.OBJECT_MOVE_SPEED);
+    public void moveDroplet(int baseSpeed, double modifier){
+        //DEBUG
+        //System.out.println("DropletSpeed="+(ObjectConstants.OBJECT_MOVE_SPEED * modifier));
+        setAbsY(Math.toIntExact(getAbsY()+Math.round(baseSpeed * modifier)));
+    }
+
+    public boolean checkDropCollision(Rectangle collider){
+        return this.getRectangle().intersects(collider);
     }
 
 

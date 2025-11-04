@@ -14,6 +14,6 @@ public class GameConstants {
 
 
     // Music variable
-    protected static final String MUSIC_FILE = "Vacancy.cut.wav";
+    public static final String MUSIC_FILE = "Vacancy.cut.wav";
 
 }

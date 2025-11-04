@@ -25,4 +25,12 @@ public abstract class AbstractScreen extends JPanel {
         drawBackground(g);
     }
 
+    ///  Disposes of the assets on the screen
+    public void dispose(){
+        if(bgImage != null){
+            bgImage.flush();
+            bgImage = null;
+        }
+    }
+
 }

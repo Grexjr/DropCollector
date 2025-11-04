@@ -1,10 +1,14 @@
 package newgui;
 
+import com.java.DropCatcher.util.SpriteLoader;
 import newcontroller.DropCatcher;
 import newgui.abstracta.AbstractScreen;
 import newobjects.Bucket;
 import newobjects.Droplet;
+import newobjects.LifeCounter;
+import newobjects.ObjectConstants;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,31 +19,45 @@ public class GameScreen extends AbstractScreen {
 
     private final DropCatcher game;
     private final MouseAdapter mouseAdapter;
+    private final ScoreLabel scoreLabel;
+    private final HighScoreLabel highScoreLabel;
 
     private boolean isPressed;
     private int mouseX;
 
     public GameScreen(DropCatcher game){
-        super(null,GUIConstants.GAME_BACKGROUND);
+        super(null, SpriteLoader.loadSprite(GUIConstants.GAME_BACKGROUND_PATH));
         this.game = game;
         mouseAdapter = buildMouseInput();
+        scoreLabel = new ScoreLabel();
+        highScoreLabel = new HighScoreLabel(game.getHighScore());
+
         isPressed = false;
 
         add(game.getObjects().getBucket());
+        for(LifeCounter l : game.getObjects().getLives()){
+            add(l);
+        }
+        add(scoreLabel);
+        add(highScoreLabel);
         addMouseListener(mouseAdapter);
         addMouseMotionListener(mouseAdapter);
     }
 
     public boolean getPressed(){return isPressed;}
     public int getMouseX(){return mouseX;}
+    public ScoreLabel getScoreLabel(){return scoreLabel;}
+    public HighScoreLabel getHighScoreLabel() {return highScoreLabel;}
 
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
-        drawPlayer(g2);
         drawDrops(g2);
+        drawPlayer(g2);
+        drawLives(g2);
+        drawScore();
     }
 
     private void drawDrops(Graphics2D g2){
@@ -74,7 +92,7 @@ public class GameScreen extends AbstractScreen {
                 game.calculateScreenXPos(player),
                 game.calculateScreenYPos(player),
                 game.calculateScreenDimension(player.getAbsWidth()),
-                game.calculateScreenDimension(player.getAbsHeight())
+                game.calculateScreenDimension((int) (player.getAbsHeight() * ObjectConstants.BUCKET_COLLISION_MOD))
         );
 
         g2.drawImage(
@@ -82,8 +100,38 @@ public class GameScreen extends AbstractScreen {
                 (int)playerRect.getX(),
                 (int)playerRect.getY(),
                 (int)playerRect.getWidth(),
-                (int)playerRect.getHeight(),
+                game.calculateScreenDimension(player.getAbsHeight()),
                 null
+        );
+    }
+
+    private void drawLives(Graphics2D g2){
+        ArrayList<LifeCounter> lives = game.getObjects().getLives();
+
+        for(LifeCounter l : lives){
+            g2.drawImage(
+                    l.getSprite(),
+                    game.calculateScreenXPos(l),
+                    game.calculateScreenYPos(l),
+                    game.calculateScreenDimension(l.getAbsWidth()),
+                    game.calculateScreenDimension(l.getAbsHeight()),
+                    null
+            );
+        }
+    }
+
+    private void drawScore(){
+        scoreLabel.setBounds(
+                0,
+                0,
+                scoreLabel.getPreferredSize().width,
+                scoreLabel.getPreferredSize().height
+        );
+        highScoreLabel.setBounds(
+                0,
+                scoreLabel.getPreferredSize().height/2,
+                highScoreLabel.getPreferredSize().width,
+                highScoreLabel.getPreferredSize().height
         );
     }
 
@@ -121,5 +169,4 @@ public class GameScreen extends AbstractScreen {
         System.out.println(e.getSource()+"=released;");
         isPressed = false;
     }
-
 }
