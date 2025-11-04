@@ -3,7 +3,7 @@ package com.java.DropCatcher.gui;
 public class GUIConstants {
 
     protected static final String WINDOW_TITLE = "Drop Catcher";
-    protected static final int[] WINDOW_SIZE = {1920,1240};
+    protected static final int[] WINDOW_SIZE = {1920,1240}; // Either make everything smaller or resizable
 
     protected static final String GAME_TITLE = "DROP CATCHER";
     protected static final int[] MAIN_MENU_SIZE = {1000,1000};
