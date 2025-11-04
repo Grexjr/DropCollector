@@ -1,5 +1,6 @@
 package newcontroller;
 
+import com.java.DropCatcher.util.AudioLoader;
 import newobjects.Droplet;
 import newobjects.abstracta.AbstractObject;
 
@@ -13,7 +14,7 @@ public class DropCatcher {
 
     private int dropDelay,dropTimer,dropSpeed,score,highScore;
     private double speedMod,rawDelay;
-
+    private boolean gameOver;
 
     //TODO: add db mode that draws object rectangles etc.
 
@@ -29,6 +30,7 @@ public class DropCatcher {
         highScore = score;
         speedMod = GameConstants.INITIAL_SPEED_MOD;
         dropSpeed = GameConstants.BASE_DROP_SPEED;
+        gameOver = false;
     }
 
     public ObjectManager getObjects(){
@@ -54,19 +56,20 @@ public class DropCatcher {
 
     /// MAIN GAME LOOP - EXECUTES EVERY FRAME
     public void update(){
-        // Repaint content pane every frame
-        gui.getContent().repaint();
+        if(!gameOver){// Repaint content pane every frame
+            gui.getContent().repaint();
 
-        // Run player input
-        runPlayerInput();
+            // Run player input
+            runPlayerInput();
 
-        // Move the droplets down
-        runDroplets();
+            // Move the droplets down
+            runDroplets();
 
-        // Create a droplet if the timer has gone above the delay
-        createDroplets();
+            // Create a droplet if the timer has gone above the delay
+            createDroplets();
 
-        dropTimer++;
+            dropTimer++;
+        }
     }
 
     private void runPlayerInput(){
@@ -106,12 +109,22 @@ public class DropCatcher {
             if(!objects.getDroplets().isEmpty()){
                 if (objects.getDroplets().get(i).getAbsY() >= objects.getWorld().getHeight()) {
                     objects.getDroplets().remove(i);
-                    //TODO: Lose life
+                    loseLife();
                     //DEBUG
                     System.out.println("DropNum: " + objects.getDroplets().size());
                 }
             }
         }
+    }
+
+    private void loseLife(){
+        if(!(getObjects().getLives().size() == 1)){
+            getObjects().getLives().removeLast();
+        } else {
+            getObjects().getLives().removeLast();
+            gameOver = true;
+        }
+        //AudioLoader.playLifeLoss();
     }
 
     //TODO: Change this to a better system not based on maximum droplets being reached, but game time

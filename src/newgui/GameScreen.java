@@ -5,6 +5,7 @@ import newcontroller.DropCatcher;
 import newgui.abstracta.AbstractScreen;
 import newobjects.Bucket;
 import newobjects.Droplet;
+import newobjects.LifeCounter;
 import newobjects.ObjectConstants;
 
 import javax.swing.*;
@@ -33,6 +34,9 @@ public class GameScreen extends AbstractScreen {
         isPressed = false;
 
         add(game.getObjects().getBucket());
+        for(LifeCounter l : game.getObjects().getLives()){
+            add(l);
+        }
         add(scoreLabel);
         add(highScoreLabel);
         addMouseListener(mouseAdapter);
@@ -51,6 +55,7 @@ public class GameScreen extends AbstractScreen {
 
         drawDrops(g2);
         drawPlayer(g2);
+        drawLives(g2);
         drawScore();
     }
 
@@ -97,6 +102,21 @@ public class GameScreen extends AbstractScreen {
                 game.calculateScreenDimension(player.getAbsHeight()),
                 null
         );
+    }
+
+    private void drawLives(Graphics2D g2){
+        ArrayList<LifeCounter> lives = game.getObjects().getLives();
+
+        for(LifeCounter l : lives){
+            g2.drawImage(
+                    l.getSprite(),
+                    game.calculateScreenXPos(l),
+                    game.calculateScreenYPos(l),
+                    game.calculateScreenDimension(l.getAbsWidth()),
+                    game.calculateScreenDimension(l.getAbsHeight()),
+                    null
+            );
+        }
     }
 
     private void drawScore(){

@@ -5,6 +5,7 @@ public class ObjectConstants {
     // Sprite data
     public static final String PLAYER_SPRITE_FILE = "Bucket.png";
     public static final String DROPLET_SPRITE_FILE = "DropBlurred.png";
+    public static final String LIFE_SPRITE_FILE = "HeartSprite.png";
 
     // World data
     public static final int WORLD_WIDTH = 1600;
@@ -16,6 +17,10 @@ public class ObjectConstants {
 
     // Droplet data
     public static final double DROPLET_SCALE_FACTOR = 0.03;
+
+    // Life Counter data
+    public static final double LIFE_COUNTER_SCALE_FACTOR = 0.075;
+    public static final int LIFE_OFFSET = 125;
 
 
 
