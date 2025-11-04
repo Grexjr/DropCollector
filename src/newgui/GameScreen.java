@@ -7,6 +7,7 @@ import newobjects.Bucket;
 import newobjects.Droplet;
 import newobjects.ObjectConstants;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,6 +18,7 @@ public class GameScreen extends AbstractScreen {
 
     private final DropCatcher game;
     private final MouseAdapter mouseAdapter;
+    private final ScoreLabel scoreLabel;
 
     private boolean isPressed;
     private int mouseX;
@@ -25,15 +27,18 @@ public class GameScreen extends AbstractScreen {
         super(null, SpriteLoader.loadSprite(GUIConstants.GAME_BACKGROUND_PATH));
         this.game = game;
         mouseAdapter = buildMouseInput();
+        scoreLabel = new ScoreLabel();
         isPressed = false;
 
         add(game.getObjects().getBucket());
+        add(scoreLabel);
         addMouseListener(mouseAdapter);
         addMouseMotionListener(mouseAdapter);
     }
 
     public boolean getPressed(){return isPressed;}
     public int getMouseX(){return mouseX;}
+    public ScoreLabel getScoreLabel(){return scoreLabel;}
 
     @Override
     public void paintComponent(Graphics g){
@@ -42,6 +47,7 @@ public class GameScreen extends AbstractScreen {
 
         drawDrops(g2);
         drawPlayer(g2);
+        drawScore();
     }
 
     private void drawDrops(Graphics2D g2){
@@ -86,6 +92,15 @@ public class GameScreen extends AbstractScreen {
                 (int)playerRect.getWidth(),
                 game.calculateScreenDimension(player.getAbsHeight()),
                 null
+        );
+    }
+
+    private void drawScore(){
+        scoreLabel.setBounds(
+                0,
+                0,
+                scoreLabel.getPreferredSize().width,
+                scoreLabel.getPreferredSize().height
         );
     }
 

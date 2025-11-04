@@ -105,5 +105,9 @@ public class GUIManager {
         return gameScreen.getMouseX();
     }
 
+    public void updateScoreLabel(int score){
+        gameScreen.getScoreLabel().updateScore(score);
+    }
+
 
 }
