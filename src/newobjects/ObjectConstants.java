@@ -6,11 +6,6 @@ public class ObjectConstants {
     public static final String PLAYER_SPRITE_FILE = "Bucket.png";
     public static final String DROPLET_SPRITE_FILE = "DropBlurred.png";
 
-
-    // General object data
-
-    public static final int OBJECT_MOVE_SPEED = 10;
-
     // World data
     public static final int WORLD_WIDTH = 1600;
     public static final int WORLD_HEIGHT = 900;

@@ -11,7 +11,8 @@ public class DropCatcher {
     private final ObjectManager objects;
     private final GameLoop loop;
 
-    private int dropDelay,dropTimer;
+    private int dropDelay,dropTimer,dropSpeed;
+    private double speedMod,rawDelay;
 
 
     //TODO: add db mode that draws object rectangles etc.
@@ -22,7 +23,10 @@ public class DropCatcher {
         loop = new GameLoop(this);
 
         dropDelay = GameConstants.INITIAL_DELAY;
+        rawDelay = dropDelay;
         dropTimer = 0;
+        speedMod = GameConstants.INITIAL_SPEED_MOD;
+        dropSpeed = GameConstants.BASE_DROP_SPEED;
     }
 
     public ObjectManager getObjects(){
@@ -68,23 +72,44 @@ public class DropCatcher {
 
         // Move the droplets down
         for(int i = objects.getDroplets().size()-1; i >= 0; i--){
-            objects.getDroplets().get(i).moveDroplet();
-            // Run collision check
-            if(objects.getDroplets().get(i).checkDropCollision((Rectangle)objects.getBucket().getRectangle())){
-                objects.getDroplets().remove(i);
+            // Check to make sure there are droplets
+            if(!objects.getDroplets().isEmpty()){
+                objects.getDroplets().get(i).moveDroplet(dropSpeed,speedMod);
             }
-            if(objects.getDroplets().get(i).getAbsY() >= objects.getWorld().getHeight()){
-                objects.getDroplets().remove(i);
-                System.out.println("DropNum: "+objects.getDroplets().size());
+            // Run collision check if there are droplets
+            if(!objects.getDroplets().isEmpty()){
+                if (objects.getDroplets().get(i).checkDropCollision((Rectangle) objects.getBucket().getRectangle())) {
+                    objects.getDroplets().remove(i);
+                }
+            }
+            // Run the removal if drop goes below world and there are droplets left
+            if(!objects.getDroplets().isEmpty()){
+                if (objects.getDroplets().get(i).getAbsY() >= objects.getWorld().getHeight()) {
+                    objects.getDroplets().remove(i);
+                    //DEBUG
+                    System.out.println("DropNum: " + objects.getDroplets().size());
+                }
             }
         }
 
-        // Create a droplet if the condition is met
+        // Create a droplet if the timer has gone above the delay
+        //TODO: Change this to a better system not based on maximum droplets being reached, but game time
         if(dropTimer >= dropDelay){
             dropTimer = 0;
             objects.createDroplet();
-            dropDelay--;
-            System.out.println(dropDelay);
+            //DEBUG
+            System.out.println("Delay="+dropDelay);
+            if(dropDelay > GameConstants.MINIMUM_DELAY){
+                rawDelay = rawDelay - GameConstants.DELAY_DECREASE;
+                dropDelay = Math.toIntExact(Math.round(rawDelay));
+            }
+            //DEBUG
+            System.out.println("DropSpeed="+dropSpeed*speedMod);
+            System.out.println("DropSpeedMod="+speedMod);
+            if((dropSpeed * speedMod) < GameConstants.MAX_SPEED){
+                speedMod += GameConstants.SPEED_MOD_INCREASE;
+            }
+
         }
 
         dropTimer++;
