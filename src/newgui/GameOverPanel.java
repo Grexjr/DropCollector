@@ -27,8 +27,7 @@ public class GameOverPanel extends JPanel {
             if(e.getActionCommand().equalsIgnoreCase("RESTART")){
                 manager.restartGame();
             } else if(e.getActionCommand().equalsIgnoreCase("MAIN MENU")){
-                //TODO: Find some way to communicate the restart back to the game--use the manager reference
-
+                manager.returnToMenu();
             }
         };
     }

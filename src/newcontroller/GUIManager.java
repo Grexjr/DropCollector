@@ -1,5 +1,6 @@
 package newcontroller;
 
+import com.java.DropCatcher.gui.MainMenuPanel;
 import newgui.*;
 import newgui.abstracta.AbstractScreen;
 import newobjects.abstracta.AbstractObject;
@@ -126,6 +127,12 @@ public class GUIManager {
         menu = new MenuScreen(this); //Not ideal but because my gui code is messed the F*** up
         gameOver = null;
         startGame();
+    }
+
+    public void returnToMenu(){
+        menu = new MenuScreen(this);
+        changeScreen(gameScreen,menu);
+        gameOver = null;
     }
 
 
