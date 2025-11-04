@@ -5,7 +5,7 @@ public class GameConstants {
     protected static final int TARGET_FPS = 60;
 
     public static final double INITIAL_SPEED_MOD = 1.0;
-    public static final double SPEED_MOD_INCREASE = 0.001;
+    public static final double SPEED_MOD_INCREASE = 0.005;
     public static final int MAX_SPEED = 30;
     public static final int BASE_DROP_SPEED = 10;
 

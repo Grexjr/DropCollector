@@ -109,5 +109,9 @@ public class GUIManager {
         gameScreen.getScoreLabel().updateScore(score);
     }
 
+    public void updateHighScoreLabel(int score){
+        gameScreen.getHighScoreLabel().updateHighScore(score);
+    }
+
 
 }

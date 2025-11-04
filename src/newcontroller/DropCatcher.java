@@ -11,7 +11,7 @@ public class DropCatcher {
     private final ObjectManager objects;
     private final GameLoop loop;
 
-    private int dropDelay,dropTimer,dropSpeed,score;
+    private int dropDelay,dropTimer,dropSpeed,score,highScore;
     private double speedMod,rawDelay;
 
 
@@ -26,6 +26,7 @@ public class DropCatcher {
         rawDelay = dropDelay;
         dropTimer = 0;
         score = 0;
+        highScore = score;
         speedMod = GameConstants.INITIAL_SPEED_MOD;
         dropSpeed = GameConstants.BASE_DROP_SPEED;
     }
@@ -94,6 +95,10 @@ public class DropCatcher {
                 if (objects.getDroplets().get(i).checkDropCollision((Rectangle) objects.getBucket().getRectangle())) {
                     objects.getDroplets().remove(i);
                     score++;
+                    if(score > highScore){
+                        highScore = score;
+                        gui.updateHighScoreLabel(highScore);
+                    }
                     gui.updateScoreLabel(score);
                 }
             }

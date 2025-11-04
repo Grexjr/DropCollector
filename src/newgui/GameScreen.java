@@ -19,6 +19,7 @@ public class GameScreen extends AbstractScreen {
     private final DropCatcher game;
     private final MouseAdapter mouseAdapter;
     private final ScoreLabel scoreLabel;
+    private final HighScoreLabel highScoreLabel;
 
     private boolean isPressed;
     private int mouseX;
@@ -28,10 +29,12 @@ public class GameScreen extends AbstractScreen {
         this.game = game;
         mouseAdapter = buildMouseInput();
         scoreLabel = new ScoreLabel();
+        highScoreLabel = new HighScoreLabel();
         isPressed = false;
 
         add(game.getObjects().getBucket());
         add(scoreLabel);
+        add(highScoreLabel);
         addMouseListener(mouseAdapter);
         addMouseMotionListener(mouseAdapter);
     }
@@ -39,6 +42,7 @@ public class GameScreen extends AbstractScreen {
     public boolean getPressed(){return isPressed;}
     public int getMouseX(){return mouseX;}
     public ScoreLabel getScoreLabel(){return scoreLabel;}
+    public HighScoreLabel getHighScoreLabel() {return highScoreLabel;}
 
     @Override
     public void paintComponent(Graphics g){
@@ -102,6 +106,12 @@ public class GameScreen extends AbstractScreen {
                 scoreLabel.getPreferredSize().width,
                 scoreLabel.getPreferredSize().height
         );
+        highScoreLabel.setBounds(
+                0,
+                scoreLabel.getPreferredSize().height/2,
+                highScoreLabel.getPreferredSize().width,
+                highScoreLabel.getPreferredSize().height
+        );
     }
 
     private MouseAdapter buildMouseInput(){
@@ -138,5 +148,4 @@ public class GameScreen extends AbstractScreen {
         System.out.println(e.getSource()+"=released;");
         isPressed = false;
     }
-
 }

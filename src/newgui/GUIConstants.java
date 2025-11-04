@@ -44,6 +44,7 @@ public class GUIConstants {
 
     // Game Screen variables
     protected static final String SCORE_LABEL_STRING = "Score: ";
+    protected static final String HIGH_SCORE_STRING = "High Score: ";
     protected static final int SCORE_SIZE = 50;
 
 }
