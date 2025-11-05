@@ -31,3 +31,5 @@ bin/
 ### CUSTOM ###
 *.iml
 *.xml
+packr-config.json
+packaged
